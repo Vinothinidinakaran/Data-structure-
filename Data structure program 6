@@ -1,0 +1,54 @@
+AVL tree (self balancing)
+class Node:
+    def __init__(self, k):
+        self.key = k
+        self.left = None
+        self.right = None
+        self.height = 1
+
+def h(n):
+    return n.height if n else 0
+
+def rotateright(y):
+    x = y.left
+    y.left = x.right
+    x.right = y
+    y.height = 1 + max(h(y.left), h(y.right))
+    x.height = 1 + max(h(x.left), h(x.right))
+    return x
+
+def rotateleft(x):
+    y = x.right
+    x.right = y.left
+    y.left = x
+    x.height = 1 + max(h(x.left), h(x.right))
+    y.height = 1 + max(h(y.left), h(y.right))
+    return y
+
+def insert(r, k):
+    if not r:
+        return Node(k)
+    if k < r.key:
+        r.left = insert(r.left, k)
+    else:
+        r.right = insert(r.right, k)
+    
+    r.height = 1 + max(h(r.left), h(r.right))
+    b = h(r.left) - h(r.right)
+    
+    if b > 1:
+        return rotateright(r)
+    if b < -1:
+        return rotateleft(r)
+    return r
+
+def inorder(r):
+    if r:
+        inorder(r.left) # Note: source uses 'root.left' incorrectly; 'r.left' is standard
+        print(r.key,)
+        inorder(r.right)
+
+root = None
+for i in [10, 20, 30]:
+    root = insert(root, i)
+    inorder(root)
