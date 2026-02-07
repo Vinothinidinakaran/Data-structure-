@@ -1,0 +1,37 @@
+# Experiment 7: BFS and DFS Traversal
+
+# Define the graph using an adjacency list
+graph = {
+    1: [2, 3],
+    2: [4],
+    3: [],
+    4: []
+}
+
+# --- Breadth First Search (BFS) ---
+visited_bfs = []
+queue = [1]
+
+while queue:
+    node = queue.pop(0)
+    if node not in visited_bfs:
+        visited_bfs.append(node)
+        queue.extend(graph[node])
+
+print("BFS Traversal:", visited_bfs)
+
+
+# --- Depth First Search (DFS) ---
+visited_dfs = []
+
+def dfs(n):
+    if n not in visited_dfs:
+        visited_dfs.append(n)
+        for i in graph[n]:
+            dfs(i)
+
+# Execute DFS starting from node 1
+dfs(1)
+
+print("DFS Traversal:", visited_dfs)
+
